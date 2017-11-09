@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService, LoginSummary } from "../services/AuthService";
 
 @Component({
   selector: 'app-menubar',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenubarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService : AuthService) { }
+
+  loginSummary = new LoginSummary();
 
   ngOnInit() {
+    this.authService.loginState().subscribe(l=> {
+      this.loginSummary = l;
+    })
+  }
+
+  logout = () => {
+    this.authService.logout();
   }
 
 }

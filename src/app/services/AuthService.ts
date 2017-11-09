@@ -11,10 +11,6 @@ import { Subject } from "rxjs/Subject";
 @Injectable()
 export class AuthService {
 
-  imageUrl: string;
-  userName: string;
-  state: boolean;
-
   constructor(private auth: AngularFireAuth, private router: Router) { }
 
   guard = () : void => {
