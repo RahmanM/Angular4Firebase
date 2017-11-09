@@ -14,7 +14,7 @@
         [ngClass]="{'active': selectedIndex == i}"
         (click)="categorySelected(category.Id, i)">
 
-          <a class="bold-a" href="#">{{category.Description}}</a>
+          <a class="bold-a">{{category.Description}}</a>
           <span class="badge badge-primary badge-pill">{{category.Count}}</span>
       </li>
      </ul>

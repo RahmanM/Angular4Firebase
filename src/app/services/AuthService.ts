@@ -6,6 +6,7 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/take';
 import * as firebase from 'firebase';
+import { Subject } from "rxjs/Subject";
 
 @Injectable()
 export class AuthService {
@@ -16,7 +17,7 @@ export class AuthService {
 
   constructor(private auth: AngularFireAuth, private router: Router) { }
 
-  guard() {
+  guard = () : void => {
     this.auth.authState.subscribe(res => {
       if (!res || !res.uid) {
         this.router.navigate(["Login"]);
@@ -24,29 +25,35 @@ export class AuthService {
     });
   }
 
-  login() : Observable<Promise<any>> {
-
+  login = () : Observable<Promise<any>> => {
     var provider = new firebase.auth.GoogleAuthProvider();
     var result = this.auth.auth.signInWithPopup(provider);
     return Observable.fromPromise(result);
   }
 
-  loginState(): Observable<LoginSummary> {
-
+  loginState = () : Observable<LoginSummary> => {
+    /* Example of returning Observable from inside a Subscription!! */
     var login = new LoginSummary();
+    let subject = new Subject<LoginSummary>();
+
     this.auth.authState.subscribe(res => {
       if (res && res.uid) {
         login.state = true;
         login.userName = res.providerData[0].displayName;
         login.imageUrl = res.providerData[0].photoURL;
-        return Observable.of(login);
-      // } else {
-      //   login.state = false;
+        subject.next(login);
+        subject.complete();
       }
     });
 
-    return Observable.of(login);
+    let result  = subject.asObservable();
+    return result;
+  }
 
+  logout = () => {
+    this.auth.auth.signOut().then(function () {
+      this.router.navigate(["/"]);
+    });
   }
 
 }
