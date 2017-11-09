@@ -1,0 +1,9 @@
+.badge{
+    border: 1px solid;
+}
+
+.activeBadge{
+    background: blue !important;
+    color: white;
+    font-weight: bold;
+}

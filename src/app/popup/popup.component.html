@@ -1,0 +1,16 @@
+<span>
+  <a href="javascript:void(0)" 
+    onmouseover="document.getElementById('light').style.display='block';" 
+    onmouseleave="document.getElementById('light').style.display='none';"
+    >
+      
+  <span class="glyphicon glyphicon-list-alt" title="filters currently applied.." ></span></a>
+
+  <span id="light" class="white_content">
+    <ul >
+      <li *ngFor="let popup of popups">
+          {{popup}}
+      </li>
+    </ul>
+  </span>
+</span>

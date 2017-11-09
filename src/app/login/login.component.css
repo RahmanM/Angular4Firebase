@@ -1,0 +1,63 @@
+.outer {
+    display: table;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+.middle {
+    display: table-cell;
+    vertical-align: middle;
+}
+.inner {
+    margin-left: auto;
+    margin-right: auto;
+    width: 300px;
+}
+.connect {
+  overflow: hidden;
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 72px;
+  line-height: 72px;
+  text-decoration: none;
+}
+
+.connect__icon {
+  vertical-align: middle;
+  float: left;
+  width: 70px;
+  text-align: center;
+  font-size: 22px;
+}
+
+.connect__context {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.connect.facebook {
+  background: #3b5998;
+  color: #FFF;
+}
+
+.connect.facebook a {
+  color: #FFF;
+}
+
+.connect.facebook .connect__icon {
+  background: #283d68;
+}
+
+.connect.googleplus {
+  background: #dd4b39;
+  color: #FFF;
+}
+
+.connect.googleplus a {
+  color: #FFF;
+}
+
+.connect.googleplus .connect__icon {
+  background: #b52f1f;
+}
