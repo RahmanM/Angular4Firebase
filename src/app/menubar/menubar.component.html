@@ -1,11 +1,14 @@
-<span class="padding-10" *ngIf="loginSummary.state">Hi, {{loginSummary.userName}}
+<div class="main">
+  <span class="padding-10" *ngIf="loginSummary.state">Hi, {{loginSummary.userName}}
    
    <span class="pull-right padding-10" >
      <img  style="width:50; height:50px" src="{{loginSummary.imageUrl}}" alt="..." class="img-circle">
    </span>
 
   <div class="padding-10" >
-    <a (click)="logout()">Logout</a>
+    <a class="pointer" (click)="logout()">Logout</a>
   </div>
   
 </span>
+
+</div>

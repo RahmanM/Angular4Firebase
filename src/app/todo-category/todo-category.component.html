@@ -2,14 +2,14 @@
   <div class="panel-heading">
     Categories 
     <a>
-      <span style="color: white" (click)="categoryReset();" class="pull-right glyphicon glyphicon-refresh">
+      <span style="color: white" (click)="categoryReset();" class="pull-right glyphicon glyphicon-refresh  pointer">
         </span>
     </a>
   </div>
   <div class="panel-body">
     <ul class="list-group">
       <li 
-        class="list-group-item d-flex justify-content-between align-items-center" 
+        class="list-group-item d-flex justify-content-between align-items-center  pointer" 
         *ngFor="let category of categories; let i = index"
         [ngClass]="{'active': selectedIndex == i}"
         (click)="categorySelected(category.Id, i)">

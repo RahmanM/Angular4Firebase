@@ -1,3 +1,17 @@
-.padding-10{
-    padding: 10px;
+.padding-10 {
+  padding: 10px;
+}
+
+.main {
+  background: #337ab7;
+  color: white;
+  font-weight: bold;
+}
+
+.main a{
+    color: white;
+}
+
+.pointer { 
+  cursor: pointer; 
 }

@@ -2,19 +2,19 @@
     <span>
       Total to do:  
         <a >
-          <span [ngClass]="{activeBadge: selectedBadge==='all'}"  class="badge alert-success" #all (click)="showByCount('all')">{{totalTodos}}</span>
+          <span [ngClass]="{activeBadge: selectedBadge==='all'}"  class="badge alert-success pointer" #all (click)="showByCount('all')">{{totalTodos}}</span>
         </a>
     </span>
     <span >
         Total completed: 
         <a  >
-            <span [ngClass]="{activeBadge: selectedBadge==='done'}"  class="badge alert-primary" #done (click)="showByCount('done')">{{totalCompleted}}</span>
+            <span [ngClass]="{activeBadge: selectedBadge==='done'}"  class="badge alert-primary pointer" #done (click)="showByCount('done')">{{totalCompleted}}</span>
         </a>
     </span>
     <span>
         Total not completed: 
         <a >
-            <span [ngClass]="{activeBadge: selectedBadge==='notdone'}" class="badge alert-danger" #notDone (click)="showByCount('notdone')">{{totalNotCompleted}}</span>
+            <span [ngClass]="{activeBadge: selectedBadge==='notdone'}" class="badge alert-danger pointer" #notDone (click)="showByCount('notdone')">{{totalNotCompleted}}</span>
         </a>
     </span>
 </div>
