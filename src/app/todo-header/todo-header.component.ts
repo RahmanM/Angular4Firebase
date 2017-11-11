@@ -1,7 +1,9 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { Todo, Category } from '../modals/Todo';
 import { TodoService } from '../services/TodoService';
 import { NotificationService } from '../services/NotificationService';
+import { CategoryService } from "../services/category.service";
+import { Subscription } from "rxjs/Rx";
 
 
 @Component({
@@ -10,22 +12,31 @@ import { NotificationService } from '../services/NotificationService';
   templateUrl: './todo-header.component.html',
   styleUrls: ['./todo-header.component.css']
 })
-export class TodoHeaderComponent implements OnInit {
+export class TodoHeaderComponent implements OnInit, OnDestroy {
+  categoryLoadSubscription: Subscription;
 
   todo: Todo = new Todo('', false, false, 1);
   categories = new Array<Category>();
 
-  constructor(private todoService: TodoService, private notificationService: NotificationService) {
-    this.todoService.loadCategories().subscribe(c => this.categories = c);
+  constructor(private todoService: TodoService,
+              private notificationService: NotificationService,
+              private categoryService: CategoryService) {
   }
 
   ngOnInit() {
+    this.categoryLoadSubscription = this.categoryService.loadCategories().subscribe(c => this.categories = c);
+  }
+
+  ngOnDestroy(): void {
+    this.categoryLoadSubscription.unsubscribe();
   }
 
   addTodo(todo: Todo) {
     this.todoService.addTodo(
       new Todo(todo.Description, false, true, todo.CategoryId)
-    ).subscribe(a =>  {
+    ).subscribe(a => {
+      console.log(a);
+      if(a !== null) return;
       this.notificationService.notifyTodoAdded(a);
       this.todo.CategoryId = 1;
     });

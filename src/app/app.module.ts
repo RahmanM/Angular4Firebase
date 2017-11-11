@@ -29,6 +29,7 @@ import {AngularFireDatabaseModule} from 'angularfire2/database';
 import { TodoComponent } from './todo/todo.component';
 import { AuthService } from "./services/AuthService";
 import { MenubarComponent } from './menubar/menubar.component';
+import { CategoryService } from "./services/category.service";
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { MenubarComponent } from './menubar/menubar.component';
   ],
   providers: [{provide: APP_BASE_HREF, useValue: '/'},
                 TodoService, 
+                CategoryService,
                 NotificationService, 
                 AngularFireAuth, 
                 RouterModule, 

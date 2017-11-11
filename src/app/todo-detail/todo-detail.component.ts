@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Todo } from '../modals/Todo';
 import { TodoService } from '../services/TodoService';
 import { fade, highlight } from '../todo-animations/Animation';
@@ -10,12 +10,12 @@ import { NotificationService } from '../services/NotificationService';
   templateUrl: './todo-detail.component.html',
   styleUrls: ['./todo-detail.component.css'],
   animations: [
-                fade,
-                highlight
-              ]
+    fade,
+    highlight
+  ]
 })
 export class TodoDetailComponent implements OnInit {
-  todoList: Array<Todo>= [];
+  todoList: Array<Todo> = [];
   // Is used by the UI to apply filter for search using the pipes
   descriptionFilter: string;
   completedState: string;
@@ -34,25 +34,25 @@ export class TodoDetailComponent implements OnInit {
         notificationService.notifyTodoListChanged(this.todoList);
       });
 
-      // User has changed the cateogy id of the category component, so filter todos
-      notificationService.selectedCategoryChangedObservable.subscribe(id => {
-        this.resetAllFilters();
-        this.notificationService.notifyResetFilters();
-        this.categoryFilter = id;
-      });
+    // User has changed the cateogy id of the category component, so filter todos
+    notificationService.selectedCategoryChangedObservable.subscribe(id => {
+      this.resetAllFilters();
+      this.notificationService.notifyResetFilters();
+      this.categoryFilter = id;
+    });
 
-      notificationService.selectedCountChangedObservable.subscribe(filter => {
-        this.resetAllFilters();
-        this.notificationService.notifyResetFilters();
-        this.countFilter = filter;
-      });
-   }
+    notificationService.selectedCountChangedObservable.subscribe(filter => {
+      this.resetAllFilters();
+      this.notificationService.notifyResetFilters();
+      this.countFilter = filter;
+    });
+  }
 
-   resetAllFilters() {
-      this.countFilter = '';
-      this.categoryFilter = 0;     // clear filter
-      this.descriptionFilter = '';  // clear filter
-   }
+  resetAllFilters() {
+    this.countFilter = '';
+    this.categoryFilter = 0;     // clear filter
+    this.descriptionFilter = '';  // clear filter
+  }
 
   ngOnInit() {
     this.loading = true;
@@ -66,10 +66,12 @@ export class TodoDetailComponent implements OnInit {
 
   /** removes todo from the list and notifies the subscribers */
   removeTodo(todo: Todo) {
-    this.todoService.deleteTodo(todo.Id).subscribe(r => {
-      this.todoList.splice(this.todoList.indexOf(todo), 1);
-      this.notificationService.notifyTodoListChanged(this.todoList);
-      this.notificationService.notifyTodoDeleted(todo);
+    this.todoService.deleteTodo(todo.Key).subscribe(deleted => {
+      if (deleted === true) {
+        this.todoList.splice(this.todoList.indexOf(todo), 1);
+        this.notificationService.notifyTodoListChanged(this.todoList);
+        this.notificationService.notifyTodoDeleted(todo);
+      }
     });
   }
 
@@ -92,13 +94,13 @@ export class TodoDetailComponent implements OnInit {
       setTimeout(s =>
         this.completedState = 'notcompleted', 1000
       );
-    }else {
+    } else {
       this.completedState = 'notcompleted';
     }
   }
 
   /** To show the details or not */
-  showDetails = (): boolean =>  {
+  showDetails = (): boolean => {
     return this.todoList && this.todoList.length > 0;
   }
 
@@ -107,7 +109,7 @@ export class TodoDetailComponent implements OnInit {
     this.descriptionFilter = filter;
   }
 
-  getFiltersPopups (): Array<string>  {
+  getFiltersPopups(): Array<string> {
     const array = new Array<string>();
     array.push('Category Filter: ' + this.categoryFilter);
     array.push('Count Filter: ' + this.countFilter);

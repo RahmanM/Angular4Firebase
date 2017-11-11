@@ -4,40 +4,59 @@ import { Subject } from 'rxjs/Subject';
 import { Todo, Category } from '../modals/Todo';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import { HttpClient } from '@angular/common/http';
+import { AngularFireDatabase, AngularFireList } from "angularfire2/database";
 
 @Injectable()
 export class TodoService {
+  todoList: AngularFireList<Todo>;
 
-  private baseUrl = 'http://localhost/Angular4Todo/api/';
-  // private url : string = "http://localhost:5898/api/todo";
-  constructor(private httpClient: HttpClient) {
-
+  constructor(private db: AngularFireDatabase) {
+    this.todoList = this.db.list<Todo>("/todos");
   }
 
   loadTodos = (): Observable<Array<Todo>> => {
-    const response = this.httpClient.get<Array<Todo>>(this.baseUrl + 'todo');
-    return response;
+
+    var subject = new Subject<Todo[]>();
+    var list = this.todoList.snapshotChanges();
+    console.log("list", list);
+
+    list.subscribe(s => {
+      var todos = new Array<Todo>();
+      s.forEach(item => {
+        var todo = item.payload.toJSON() as Todo;
+        todo.Key = item.key;
+        todos.push(todo)
+        subject.next(todos);
+      })
+    })
+
+    return subject.asObservable();
   }
 
   addTodo = (todo: Todo): Observable<Todo> => {
-    const response = this.httpClient.post<Todo>(this.baseUrl + 'todo', todo);
-    return response;
+    var subject = new Subject<Todo>();
+
+    this.todoList.push(todo).then(result => {
+      subject.next(todo);
+      subject.complete();
+    });
+
+    return subject.asObservable();
   }
 
-  deleteTodo = (id: string): Observable<number> => {
-    const response = this.httpClient.delete<any>(this.baseUrl + 'todo/' + id.split('/')[1]);
-    return response;
+  deleteTodo = (key: string): Observable<boolean> => {
+    this.todoList.remove(key).then(function (result) {
+      return Observable.of(true);
+    })
+
+    return Observable.of(false);
   }
 
-  updateTodo = (todo: Todo): Observable<Todo> => {
-    const response = this.httpClient.put<Todo>(this.baseUrl + 'todo', todo);
-    return response;
-  }
-
-  loadCategories = (): Observable<Array<Category>> => {
-    const response = this.httpClient.get<Array<Category>>(this.baseUrl + 'category');
-    return response;
+  updateTodo = (todo: Todo): Observable<boolean> => {
+     this.todoList.update(todo.Key, todo).then(function (result) {
+      return Observable.of(true);
+    })
+    return Observable.of(false);
   }
 
 }

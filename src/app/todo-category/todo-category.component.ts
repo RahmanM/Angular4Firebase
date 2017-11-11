@@ -3,6 +3,7 @@ import { TodoService } from '../services/TodoService';
 import { Category } from '../modals/Todo';
 import { NotificationService } from '../services/NotificationService';
 import { Subscription } from "rxjs/Subscription";
+import { CategoryService } from "../services/category.service";
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -20,11 +21,14 @@ export class TodoCategoryComponent implements OnInit, OnDestroy {
   categories: Array<Category>;
   selectedIndex: number;
 
-  constructor(private todoService: TodoService, private notificationService: NotificationService) {
+  constructor(private todoService: TodoService, 
+              private notificationService: NotificationService, 
+              private categoryService: CategoryService) {
   }
 
   ngOnInit() {
-    this.categoryLoadedSubscription = this.todoService.loadCategories().subscribe(
+
+    this.categoryLoadedSubscription = this.categoryService.loadCategories().subscribe(
       c => {
         this.categories = c;
       }
