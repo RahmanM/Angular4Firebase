@@ -12,7 +12,7 @@ import { CategoryService } from "../services/category.service";
   styleUrls: ['./todo-category.component.css']
 })
 export class TodoCategoryComponent implements OnInit, OnDestroy {
-  resetfilterSubscription     : Subscription;
+  resetfilterSubscription: Subscription;
   todoDeletedSubscription     : Subscription;
   categoryLoadedSubscription  : Subscription;
   todoAddedSubscription       : Subscription;
@@ -50,6 +50,18 @@ export class TodoCategoryComponent implements OnInit, OnDestroy {
         }
       });
     });
+
+    // Todo: here should update the count of the the categories
+    // this.notificationService.todoListChangedObservable.subscribe(list =>{
+    //   list.forEach(todo => {
+    //     for(let cat of this.categories){
+    //       if(todo.CategoryId === cat.Id){
+    //         cat.Count++;
+    //         break;
+    //       }
+    //     };
+    //   });
+    // })
 
     this.resetfilterSubscription = this.notificationService.resetFiltersObservable.subscribe(() => {
       this.selectedIndex = -1;

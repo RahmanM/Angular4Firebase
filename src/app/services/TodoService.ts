@@ -14,11 +14,11 @@ export class TodoService {
     this.todoList = this.db.list<Todo>("/todos");
   }
 
-  loadTodos = (): Observable<Array<Todo>> => {
+  // TODO: do better error handling when a doing CRUD
 
+  loadTodos = (): Observable<Array<Todo>> => {
     var subject = new Subject<Todo[]>();
     var list = this.todoList.snapshotChanges();
-    console.log("list", list);
 
     list.subscribe(s => {
       var todos = new Array<Todo>();
