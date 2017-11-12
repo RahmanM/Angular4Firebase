@@ -59,7 +59,7 @@ import { CategoryService } from "./services/category.service";
     RouterModule,
     routes
   ],
-  providers: [{provide: APP_BASE_HREF, useValue: '/'},
+  providers: [
                 TodoService, 
                 CategoryService,
                 NotificationService, 
@@ -67,7 +67,6 @@ import { CategoryService } from "./services/category.service";
                 RouterModule, 
                 AuthGuard,
                 AuthService],
-  // bootstrap: [AppComponent]
   bootstrap: [LoginComponent]
 })
 export class AppModule { }

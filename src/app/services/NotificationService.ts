@@ -52,4 +52,5 @@ export class NotificationService {
    notifyResetFilters() {
     this.resetFiltersChanged.next();
   }
+  
 }
