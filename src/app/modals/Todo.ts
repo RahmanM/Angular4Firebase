@@ -17,6 +17,6 @@ export class Todo {
 export class Category {
   Id: number;
   Description: string;
-  Count: number;
+  Count: number=0;
   Key : string;
 }

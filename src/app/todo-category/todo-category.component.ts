@@ -13,17 +13,17 @@ import { CategoryService } from "../services/category.service";
 })
 export class TodoCategoryComponent implements OnInit, OnDestroy {
   resetfilterSubscription: Subscription;
-  todoDeletedSubscription     : Subscription;
-  categoryLoadedSubscription  : Subscription;
-  todoAddedSubscription       : Subscription;
+  todoDeletedSubscription: Subscription;
+  categoryLoadedSubscription: Subscription;
+  todoAddedSubscription: Subscription;
 
 
   categories: Array<Category>;
   selectedIndex: number;
 
-  constructor(private todoService: TodoService, 
-              private notificationService: NotificationService, 
-              private categoryService: CategoryService) {
+  constructor(private todoService: TodoService,
+    private notificationService: NotificationService,
+    private categoryService: CategoryService) {
   }
 
   ngOnInit() {
@@ -52,16 +52,26 @@ export class TodoCategoryComponent implements OnInit, OnDestroy {
     });
 
     // Todo: here should update the count of the the categories
-    // this.notificationService.todoListChangedObservable.subscribe(list =>{
-    //   list.forEach(todo => {
-    //     for(let cat of this.categories){
-    //       if(todo.CategoryId === cat.Id){
-    //         cat.Count++;
-    //         break;
-    //       }
-    //     };
-    //   });
-    // })
+    this.notificationService.todoListChangedObservable.subscribe(list => {
+      console.log(list);
+
+      var count = 0;
+      let getCount = function (id): number {
+        console.log("To find:", id);
+        count = 0;
+        list.forEach(element => {
+          if (element.CategoryId == id) {
+            console.log("found id:", id);
+            count++;
+          }
+        });
+        return count;
+      }
+
+      for (let cat of this.categories) {
+         cat.Count = getCount(cat.Id);
+      }
+    })
 
     this.resetfilterSubscription = this.notificationService.resetFiltersObservable.subscribe(() => {
       this.selectedIndex = -1;
@@ -80,9 +90,9 @@ export class TodoCategoryComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.todoAddedSubscription.unsubscribe();
-    this.resetfilterSubscription.unsubscribe();   
-    this.todoDeletedSubscription.unsubscribe();   
-    this.categoryLoadedSubscription.unsubscribe(); 
+    this.resetfilterSubscription.unsubscribe();
+    this.todoDeletedSubscription.unsubscribe();
+    this.categoryLoadedSubscription.unsubscribe();
   }
 
 }

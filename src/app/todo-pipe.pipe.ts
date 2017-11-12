@@ -26,7 +26,7 @@ export class CategoryPipe implements PipeTransform {
       return todos;
     }else {
       console.log(filter);
-      return todos.filter(item => item.CategoryId === filter);
+      return todos.filter(item => item.CategoryId == filter);
     }
   }
 }
