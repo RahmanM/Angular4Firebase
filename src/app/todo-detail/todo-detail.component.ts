@@ -1,20 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { Todo } from '../modals/Todo';
-import { TodoService } from '../services/TodoService';
-import { fade, highlight } from '../todo-animations/Animation';
-import { NotificationService } from '../services/NotificationService';
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Todo } from "../modals/Todo";
+import { TodoService } from "../services/TodoService";
+import { fade, highlight } from "../todo-animations/Animation";
+import { NotificationService } from "../services/NotificationService";
+import { Subscription } from "rxjs/Rx";
 
 @Component({
   // tslint:disable-next-line:component-selector
-  selector: 'todo-detail',
-  templateUrl: './todo-detail.component.html',
-  styleUrls: ['./todo-detail.component.css'],
-  animations: [
-    fade,
-    highlight
-  ]
+  selector: "todo-detail",
+  templateUrl: "./todo-detail.component.html",
+  styleUrls: ["./todo-detail.component.css"],
+  animations: [fade, highlight]
 })
-export class TodoDetailComponent implements OnInit {
+export class TodoDetailComponent implements OnInit, OnDestroy {
+  selectedCountSubscription: Subscription;
+  selectedCategorySubscription: Subscription;
+  todoAddedSubscription: Subscription;
   todoList: Array<Todo> = [];
   // Is used by the UI to apply filter for search using the pipes
   descriptionFilter: string;
@@ -24,34 +25,15 @@ export class TodoDetailComponent implements OnInit {
   categoryFilter: number;
   countFilter: string;
 
-  constructor(private todoService: TodoService, private notificationService: NotificationService) {
-
-    /* Subscribing to todo added observable */
-    notificationService.todoAddedObservable.subscribe(
-      todo => {
-        this.todoList.push(todo);
-        /* inform subscribers e.g. todo count component to update their details */
-        notificationService.notifyTodoListChanged(this.todoList);
-      });
-
-    // User has changed the cateogy id of the category component, so filter todos
-    notificationService.selectedCategoryChangedObservable.subscribe(id => {
-      this.resetAllFilters();
-      this.notificationService.notifyResetFilters();
-      this.categoryFilter = id;
-    });
-
-    notificationService.selectedCountChangedObservable.subscribe(filter => {
-      this.resetAllFilters();
-      this.notificationService.notifyResetFilters();
-      this.countFilter = filter;
-    });
-  }
+  constructor(
+    private todoService: TodoService,
+    private notificationService: NotificationService
+  ) {}
 
   resetAllFilters() {
-    this.countFilter = '';
-    this.categoryFilter = 0;     // clear filter
-    this.descriptionFilter = '';  // clear filter
+    this.countFilter = "";
+    this.categoryFilter = 0; // clear filter
+    this.descriptionFilter = ""; // clear filter
   }
 
   ngOnInit() {
@@ -62,6 +44,38 @@ export class TodoDetailComponent implements OnInit {
       this.notificationService.notifyTodoListChanged(this.todoList);
       this.loading = false;
     });
+
+    /* Subscribing to todo added observable */
+    this.todoAddedSubscription = this.notificationService.todoAddedObservable.subscribe(
+      todo => {
+        this.todoList.push(todo);
+        /* inform subscribers e.g. todo count component to update their details */
+        this.notificationService.notifyTodoListChanged(this.todoList);
+      }
+    );
+
+    // User has changed the cateogy id of the category component, so filter todos
+    this.selectedCategorySubscription = this.notificationService.selectedCategoryChangedObservable.subscribe(
+      id => {
+        this.resetAllFilters();
+        this.notificationService.notifyResetFilters();
+        this.categoryFilter = id;
+      }
+    );
+
+    this.selectedCountSubscription = this.notificationService.selectedCountChangedObservable.subscribe(
+      filter => {
+        this.resetAllFilters();
+        this.notificationService.notifyResetFilters();
+        this.countFilter = filter;
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.selectedCountSubscription.unsubscribe();
+    this.selectedCategorySubscription.unsubscribe();
+    this.todoAddedSubscription.unsubscribe();
   }
 
   /** removes todo from the list and notifies the subscribers */
@@ -90,31 +104,28 @@ export class TodoDetailComponent implements OnInit {
 
     /** Applies custom animation based on checkbox toggling */
     if (todo.Completed) {
-      this.completedState = 'completed';
-      setTimeout(s =>
-        this.completedState = 'notcompleted', 1000
-      );
+      this.completedState = "completed";
+      setTimeout(s => (this.completedState = "notcompleted"), 1000);
     } else {
-      this.completedState = 'notcompleted';
+      this.completedState = "notcompleted";
     }
   }
 
   /** To show the details or not */
   showDetails = (): boolean => {
     return this.todoList && this.todoList.length > 0;
-  }
+  };
 
   /** Emitted from the child search component this will be used in the ngFor to filter todos */
-  applyFilter = (filter) => {
+  applyFilter = filter => {
     this.descriptionFilter = filter;
-  }
+  };
 
   getFiltersPopups(): Array<string> {
     const array = new Array<string>();
-    array.push('Category Filter: ' + this.categoryFilter);
-    array.push('Count Filter: ' + this.countFilter);
-    array.push('Description Filter: ' + this.descriptionFilter);
+    array.push("Category Filter: " + this.categoryFilter);
+    array.push("Count Filter: " + this.countFilter);
+    array.push("Description Filter: " + this.descriptionFilter);
     return array;
   }
-
 }

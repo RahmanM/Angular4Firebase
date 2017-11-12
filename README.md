@@ -1,5 +1,23 @@
 # Angular4Todo
 
+## Ilustrates
+- Component based development
+- Nested components	e.g. search and details
+- Sibling components e.g header and details	
+- Custom filters
+- Communication between sibling components e.g header add to details
+- Animations
+- Custom animation e.g. checkbox changed
+- Binding
+- Eventing
+- Validations
+- Searching and filtering
+- HTTP API and observables for CRUD
+- Observable and reactive programming
+- Firebase realtime database
+- Custom filters
+- Services
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.7.
 
 ## Development server
