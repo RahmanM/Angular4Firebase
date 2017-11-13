@@ -33,15 +33,15 @@ export class TodoService {
     return subject.asObservable();
   }
 
-  addTodo = (todo: Todo): Observable<Todo> => {
-    var subject = new Subject<Todo>();
+  addTodo = (todo: Todo): Observable<boolean> => {
+    var subject = new Subject<boolean>();
 
-    this.todoList.push(todo).then(result => {
-      subject.next(todo);
-      subject.complete();
+    this.todoList.push(todo).then(() => {
+      // NB: set timeout is needed, otherwise it won't fire the subscription!
+      setTimeout(() => subject.next(true), 0);
     });
 
-    return subject.asObservable();
+    return subject.asObservable();;
   }
 
   deleteTodo = (key: string): Observable<boolean> => {

@@ -34,11 +34,9 @@ export class TodoHeaderComponent implements OnInit, OnDestroy {
   addTodo(todo: Todo) {
     this.todoService.addTodo(
       new Todo(todo.Description, false, true, todo.CategoryId)
-    ).subscribe(a => {
-      console.log(a);
-      if(a !== null) return;
-      this.notificationService.notifyTodoAdded(a);
-      this.todo.CategoryId = 1;
+    ).filter(r=> r === true).distinctUntilChanged().subscribe(a => {
+      //this.notificationService.notifyTodoAdded(this.todo);
+      this.todo = new Todo('', false, false, 1);
     });
   }
 }

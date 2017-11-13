@@ -53,15 +53,11 @@ export class TodoCategoryComponent implements OnInit, OnDestroy {
 
     // Todo: here should update the count of the the categories
     this.notificationService.todoListChangedObservable.subscribe(list => {
-      console.log(list);
-
       var count = 0;
       let getCount = function (id): number {
-        console.log("To find:", id);
         count = 0;
         list.forEach(element => {
           if (element.CategoryId == id) {
-            console.log("found id:", id);
             count++;
           }
         });
