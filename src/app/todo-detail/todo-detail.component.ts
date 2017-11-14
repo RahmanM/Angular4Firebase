@@ -37,7 +37,9 @@ export class TodoDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
     this.loading = true;
+
     /** Load todos form the database */
     this.todoService.loadTodos().subscribe(s => {
       this.todoList = s;

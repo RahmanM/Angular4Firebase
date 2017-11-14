@@ -28,6 +28,8 @@ export class TodoService {
         todos.push(todo)
         subject.next(todos);
       })
+
+      subject.next(todos);
     })
 
     return subject.asObservable();
