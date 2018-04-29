@@ -1,3 +1,4 @@
+import { NgxPaginationModule } from 'ngx-pagination';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -18,18 +19,18 @@ import { NotificationService } from './services/NotificationService';
 import { PopupComponent } from './popup/popup.component';
 import { LoginComponent } from './login/login.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { routes } from "./app.routes";
-import { AngularFireAuth } from "angularfire2/auth";
-import { AuthGuard } from "../auth.guard";
+import { routes } from './app.routes';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { AuthGuard } from '../auth.guard';
 import { RouterModule, Routes } from '@angular/router';
-import { APP_BASE_HREF } from "@angular/common";
-import { environment } from "../environments/environment";
+import { APP_BASE_HREF } from '@angular/common';
+import { environment } from '../environments/environment';
 import { AngularFireModule} from 'angularfire2';
 import {AngularFireDatabaseModule} from 'angularfire2/database';
 import { TodoComponent } from './todo/todo.component';
-import { AuthService } from "./services/AuthService";
+import { AuthService } from './services/AuthService';
 import { MenubarComponent } from './menubar/menubar.component';
-import { CategoryService } from "./services/category.service";
+import { CategoryService } from './services/category.service';
 
 @NgModule({
   declarations: [
@@ -57,14 +58,15 @@ import { CategoryService } from "./services/category.service";
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     RouterModule,
-    routes
+    routes,
+    NgxPaginationModule
   ],
   providers: [
-                TodoService, 
+                TodoService,
                 CategoryService,
-                NotificationService, 
-                AngularFireAuth, 
-                RouterModule, 
+                NotificationService,
+                AngularFireAuth,
+                RouterModule,
                 AuthGuard,
                 AuthService],
   bootstrap: [LoginComponent]

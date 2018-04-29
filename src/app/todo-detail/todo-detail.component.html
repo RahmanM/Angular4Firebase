@@ -23,7 +23,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr @fade *ngFor="let todo of todoList | todoPipe:descriptionFilter | categoryPipe:categoryFilter | countPipe:countFilter;">
+          <tr @fade *ngFor="let todo of todoList | todoPipe:descriptionFilter | categoryPipe:categoryFilter | countPipe:countFilter | paginate: { itemsPerPage: 5, currentPage: p };">
             <td scope="row">{{todo.Description}}</td>
             <td>
               <input name="completed" type="checkbox" [@highlight]="completedState" [(ngModel)]="todo.Completed" (change)="todoChanged(todo)"
@@ -35,7 +35,10 @@
             <td hidden>
               {{todo.Id}}
             </td>
+
           </tr>
+
+          <pagination-controls maxSize="5" (pageChange)="p = $event"></pagination-controls>
 
         </tbody>
       </table>

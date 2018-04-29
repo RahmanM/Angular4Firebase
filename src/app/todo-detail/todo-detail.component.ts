@@ -1,15 +1,15 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Todo } from "../modals/Todo";
-import { TodoService } from "../services/TodoService";
-import { fade, highlight } from "../todo-animations/Animation";
-import { NotificationService } from "../services/NotificationService";
-import { Subscription } from "rxjs/Rx";
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Todo } from '../modals/Todo';
+import { TodoService } from '../services/TodoService';
+import { fade, highlight } from '../todo-animations/Animation';
+import { NotificationService } from '../services/NotificationService';
+import { Subscription } from 'rxjs/Rx';
 
 @Component({
   // tslint:disable-next-line:component-selector
-  selector: "todo-detail",
-  templateUrl: "./todo-detail.component.html",
-  styleUrls: ["./todo-detail.component.css"],
+  selector: 'todo-detail',
+  templateUrl: './todo-detail.component.html',
+  styleUrls: ['./todo-detail.component.css'],
   animations: [fade, highlight]
 })
 export class TodoDetailComponent implements OnInit, OnDestroy {
@@ -31,9 +31,9 @@ export class TodoDetailComponent implements OnInit, OnDestroy {
   ) {}
 
   resetAllFilters() {
-    this.countFilter = "";
+    this.countFilter = '';
     this.categoryFilter = 0; // clear filter
-    this.descriptionFilter = ""; // clear filter
+    this.descriptionFilter = ''; // clear filter
   }
 
   ngOnInit() {
@@ -106,28 +106,28 @@ export class TodoDetailComponent implements OnInit, OnDestroy {
 
     /** Applies custom animation based on checkbox toggling */
     if (todo.Completed) {
-      this.completedState = "completed";
-      setTimeout(s => (this.completedState = "notcompleted"), 1000);
+      this.completedState = 'completed';
+      setTimeout(s => (this.completedState = 'notcompleted'), 1000);
     } else {
-      this.completedState = "notcompleted";
+      this.completedState = 'notcompleted';
     }
   }
 
   /** To show the details or not */
   showDetails = (): boolean => {
     return this.todoList && this.todoList.length > 0;
-  };
+  }
 
   /** Emitted from the child search component this will be used in the ngFor to filter todos */
   applyFilter = filter => {
     this.descriptionFilter = filter;
-  };
+  }
 
   getFiltersPopups(): Array<string> {
     const array = new Array<string>();
-    array.push("Category Filter: " + this.categoryFilter);
-    array.push("Count Filter: " + this.countFilter);
-    array.push("Description Filter: " + this.descriptionFilter);
+    array.push('Category Filter: ' + this.categoryFilter);
+    array.push('Count Filter: ' + this.countFilter);
+    array.push('Description Filter: ' + this.descriptionFilter);
     return array;
   }
 }

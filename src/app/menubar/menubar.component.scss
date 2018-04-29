@@ -1,0 +1,11 @@
+@import "./../../styles";
+
+.main {
+  background: $bg-color-primary;
+  color: $main-color;
+  font-weight: bold;
+
+  a {
+    color: $main-color;
+  }
+}
