@@ -31,6 +31,7 @@ import { TodoComponent } from './todo/todo.component';
 import { AuthService } from './services/AuthService';
 import { MenubarComponent } from './menubar/menubar.component';
 import { CategoryService } from './services/category.service';
+import { InputFormatterDirective } from './directives/input-formatter.directive';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { CategoryService } from './services/category.service';
     LoginComponent,
     NotFoundComponent,
     TodoComponent,
-    MenubarComponent
+    MenubarComponent,
+    InputFormatterDirective
   ],
   imports: [
     BrowserModule,

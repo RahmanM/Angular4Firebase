@@ -10,30 +10,31 @@
       <form name="todoForm" #form="ngForm"  >
 
         <div class="form-group ">
-          <input 
-            name="description" 
-            type="text" [(ngModel)]="todo.Description" 
-            class="form-control" id="todoDescription" 
+          <input
+            name="description"
+            type="text" [(ngModel)]="todo.Description"
+            class="form-control" id="todoDescription"
             placeholder="New todo"
-            required minlength="3" 
-            #descriptionFld="ngModel" 
+            required minlength="3"
+            #descriptionFld="ngModel"
+            [input-formatter]="'upper'"
             (keyup.enter)="addTodo(todo);">
         </div>
 
         <div class="form-group ">
-            <select 
+            <select
              class="form-control"
-              name="category" 
-              [(ngModel)]="todo.CategoryId" 
+              name="category"
+              [(ngModel)]="todo.CategoryId"
             >
               <option *ngFor="let cat of categories" [value]="cat.Id">{{ cat.Description }}</option>
             </select>
 
         </div>
 
-          <div class="form-group">           
-                <button 
-                    type="button" 
+          <div class="form-group">
+                <button
+                    type="button"
                     (click)="addTodo(todo); form.reset();"
                     class="btn btn-primary"
                     [disabled]="form.invalid"
@@ -41,8 +42,8 @@
           </div>
 
         <div class="alert alert-danger" *ngIf="((descriptionFld.dirty || descriptionFld.touched)) && (descriptionFld.invalid)">
-          <div *ngIf="descriptionFld.errors.required">Description is required.</div>
-          <div *ngIf="descriptionFld.errors.minlength">Description should be at least 3 characters.</div>
+          <div *ngIf='descriptionFld.errors.required'>Description is required.</div>
+          <div *ngIf='descriptionFld.errors.minlength'>Description should be at least 3 characters.</div>
         </div>
 
       </form>
