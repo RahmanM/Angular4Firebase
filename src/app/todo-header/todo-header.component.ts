@@ -2,8 +2,8 @@ import { Component, OnInit, EventEmitter, Output, OnDestroy } from '@angular/cor
 import { Todo, Category } from '../modals/Todo';
 import { TodoService } from '../services/TodoService';
 import { NotificationService } from '../services/NotificationService';
-import { CategoryService } from "../services/category.service";
-import { Subscription } from "rxjs/Rx";
+import { CategoryService } from '../services/category.service';
+import { Subscription } from 'rxjs/Rx';
 
 
 @Component({
@@ -33,9 +33,9 @@ export class TodoHeaderComponent implements OnInit, OnDestroy {
 
   addTodo(todo: Todo) {
     this.todoService.addTodo(
-      new Todo(todo.Description, false, true, todo.CategoryId)
+      new Todo(todo.Description.toUpperCase(), false, true, todo.CategoryId)
     ).filter(r=> r === true).distinctUntilChanged().subscribe(a => {
-      //this.notificationService.notifyTodoAdded(this.todo);
+      // this.notificationService.notifyTodoAdded(this.todo);
       this.todo = new Todo('', false, false, 1);
     });
   }

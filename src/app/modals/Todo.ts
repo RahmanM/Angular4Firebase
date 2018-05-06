@@ -12,11 +12,12 @@ export class Todo {
   Show: boolean;  Key: string;
   Id: string;
   CategoryId = 1;
+  CreatedDate = Date.now();
 }
 
 export class Category {
   Id: number;
   Description: string;
-  Count: number=0;
-  Key : string;
+  Count= 0;
+  Key: string;
 }
